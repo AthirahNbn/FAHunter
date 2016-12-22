@@ -10,12 +10,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-				Parent root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
-				Scene scene = new Scene(root,640,528);
+				Parent root = FXMLLoader.load(getClass().getResource("view/GUI.fxml"));
+				Scene scene = new Scene(root, 640, 528);
 				
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				
-				primaryStage.setTitle("Coordinate Taker");
+				primaryStage.setTitle("Diamond Hunter Map Viewer");
 				primaryStage.setScene(scene);
 				primaryStage.show();
 		} catch(Exception e) {
