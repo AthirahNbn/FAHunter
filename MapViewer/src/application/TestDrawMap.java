@@ -1,26 +1,17 @@
 package application;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-
 import javax.imageio.ImageIO;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.canvas.GraphicsContext;
 
 public class TestDrawMap {
 	
-	@FXML Button generate;
-	
-	//dimension of panel
-	public static final int WIDTH = 600;
-	public static final int HEIGHT = 400;
+	public static final int WIDTH = 640;
+	public static final int HEIGHT = 480;
 	public static final int SCALE = 1;
-	//information of tile set
 	public static int TILESIZE = 30;
 	public static final int numRows = 2;
 	
@@ -29,63 +20,57 @@ public class TestDrawMap {
 	private int numTiles;
 	
 	private BufferedImage image;
-	private Graphics2D g;
+	private GraphicsContext g;
 	
-	//map info
+	private TileView[] tile;
+		
 	private int[][] map;
 	private int mapWidth;
 	private int mapHeight;
-
-	public void init() {
-			
-			image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-			g = (Graphics2D) image.getGraphics();
-			loadTileSet();
-			loadMap();
-			draw();
-			
+	
+	private void loadTileSets(String s){
+		System.out.println("LOADING " + s);
+				try {
+					//IMPORTANT - load tileset
+					tileset = ImageIO.read(new File(s));//read the files
+					TILESIZE = tileset.getHeight() / 2;//set the size of tile
+					int width = tileset.getWidth() / TILESIZE;
+					numTiles = width * numRows;//set number of tile
+					tiles = new BufferedImage[numRows][width];//array of the tile of the tile set as image
+					for(int i = 0; i < width; i++) {//get the image of the tile
+						tiles[0][i] = tileset.getSubimage(
+							TILESIZE * i,
+							0,
+							TILESIZE,
+							TILESIZE
+						);
+						tiles[1][i] = tileset.getSubimage(
+							TILESIZE * i,
+							TILESIZE,
+							TILESIZE,
+							TILESIZE
+						);
+					}
+					
+				}
+				catch(Exception e) {
+					System.out.println("Couldn't load " + s);
+					e.printStackTrace();
+				}
+				
+				tile = new TileView[numTiles];
+				int width = numTiles / numRows;
+				for(int i = 0; i < width; i++) {
+					tile[i] = new TileView(tiles[0][i]);
+					//tile[i].setPosition(i * TILESIZE, HEIGHT - 2 * TILESIZE);
+					tile[i + width] = new TileView(tiles[1][i]);
+					//tile[i + width].setPosition(i * TILESIZE, HEIGHT - TILESIZE);
+				}
 	}
 	
-	public void draw() {
-		Graphics g2 = image.getGraphics();
-		g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
-		g2.dispose();
-	}
-
-	public void loadTileSet() {
-		String s = "/Resource/testtileset.gif";
-		System.out.println("LOADING " + s);
-
-		try {
-			//IMPORTANT - load tileset
-			tileset = ImageIO.read(new File(s));//read the files
-			TILESIZE = tileset.getHeight() / 2;//set the size of tile
-			int width = tileset.getWidth() / TILESIZE;
-			setNumTiles(width * numRows);//set number of tile
-			tiles = new BufferedImage[numRows][width];//array of the tile of the tileset
-			for(int i = 0; i < width; i++) {//get the image of the tile
-				tiles[0][i] = tileset.getSubimage(
-					TILESIZE * i,
-					0,
-					TILESIZE,
-					TILESIZE
-				);
-				tiles[1][i] = tileset.getSubimage(
-					TILESIZE * i,
-					TILESIZE,
-					TILESIZE,
-					TILESIZE
-				);
-			}
-		}
-		catch(Exception e) {
-			System.out.println("Couldn't load " + s);
-			e.printStackTrace();
-		}
-	}
-
-	public void loadMap(){
-		String str = "/testmap.map";
+	private void loadMap(String s){
+		String str = "testmap.map";
+		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(str));//start reading .map file
 			mapWidth = Integer.parseInt(br.readLine());//IMPORTANT PART - loading map
@@ -105,9 +90,8 @@ public class TestDrawMap {
 			e.printStackTrace();
 		}
 	}
-	
-	
 
-	public int getNumTiles() {return numTiles;}
-	public void setNumTiles(int numTiles) {this.numTiles = numTiles;}
+	private void drawMap(){
+		
+	}
 }
