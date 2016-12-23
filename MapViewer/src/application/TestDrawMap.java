@@ -2,17 +2,13 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 
-public class TestDrawMap implements Initializable{
+public class TestDrawMap{
 	
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
@@ -31,15 +27,6 @@ public class TestDrawMap implements Initializable{
 	private int[][] map;
 	private int mapWidth;
 	private int mapHeight;
-	
-	@FXML Canvas canvas;
-	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		loadTileSets();
-		loadMap();
-		drawMap();
-	}
 	
 	public void loadTileSets(){
 		String s = "Resource/testtileset.gif";
@@ -88,11 +75,10 @@ public class TestDrawMap implements Initializable{
 	}
 	
 	public void loadMap(){
-		String str = "Resource/testmap.map";
+		String str = "testmap.map";
 		System.out.println("LOADING " + str);
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(str));//start reading .map file
-			System.out.println(":D");
 			mapWidth = Integer.parseInt(br.readLine());//IMPORTANT PART - loading map
 			mapHeight = Integer.parseInt(br.readLine());;
 			map = new int[mapHeight][mapWidth];
@@ -105,6 +91,7 @@ public class TestDrawMap implements Initializable{
 				}
 			}
 			br.close();
+			System.out.println(str + " loaded...");
 		}
 		catch(Exception e) {
 			System.out.println("Couldn't load " + str);
@@ -112,7 +99,7 @@ public class TestDrawMap implements Initializable{
 		}
 	}
 
-	public void drawMap(){
+	public void drawMap(Canvas canvas){
 		g = canvas.getGraphicsContext2D();
 		//draw map
 		for(int row = 0; row < mapHeight; row++) {

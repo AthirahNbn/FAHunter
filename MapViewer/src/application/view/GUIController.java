@@ -3,7 +3,7 @@ package application.view;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
-
+import application.TestDrawMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -27,7 +27,7 @@ public class GUIController {
     @FXML private Button resetCoor;
     @FXML private Button saveCoor;
     
-    @FXML private Canvas map;    
+    @FXML private Canvas canvas;    
     
     // controller constructor
     public GUIController() {
@@ -36,7 +36,11 @@ public class GUIController {
     @FXML
     private void initialize() {  
     	System.out.println("Initialising...");
-    	
+    	TestDrawMap tdm = new TestDrawMap();
+    	tdm.loadTileSets();
+		tdm.loadMap();
+		tdm.drawMap(canvas);
+	
         //DUMMY DATA
         axeCoorInput[0] = 18;
         axeCoorInput[1] = 19;
