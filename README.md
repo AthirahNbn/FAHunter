@@ -28,4 +28,21 @@ Program Description
 ======================
 How to use the program
 ======================
-1)
+
+MapViewer
+
+1) When the Map Viewer application is executed, you can see the 
+   whole map of the game, Diamond Hunter displayed at the right 
+   part of the program.
+
+2) You have the choice to input your own position of the axe and 
+   the boat by clicking any location in the map to get the new coordinates 
+   for the items. You can also just use the default coordinates set in the 
+   program by clicking the default button.
+
+3) If you are using your own coordinates of items, after getting the
+   coordinates, you must click the save button to set the new position of
+   the axe and the boat.
+
+4) After the new location of the items is set in the Map Viewer application,
+   you can now play the Diamond Hunter game. Good Luck ! 
