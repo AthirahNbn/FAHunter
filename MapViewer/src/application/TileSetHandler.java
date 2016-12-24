@@ -1,7 +1,6 @@
 package application;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 
 import application.model.TileType;
@@ -11,41 +10,42 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 
-public class MapLoader{
+public class TileSetHandler{
 	
 	public static int tileSize = 30;
-	public static final int TILESET_ROWS = 2;
-	public static final String TILESET_LOC = "/Resources/testtileset.gif";
-	public static final String MAP_LOC = "testmap.map";
 	
-	private Image tileSet;
-	private WritableImage[][] tiles;
-	private int numTiles;
+	private Image mapTileSet;
+	private WritableImage[][] mapTiles;
+	private int numMapTiles;
 	
 	private GraphicsContext g;
 	
-	private TileType[] tile;
+	private TileType[] mapTile;
 		
 	private int[][] mapCoor;
 	private int mapWidth;
 	private int mapHeight;
 	
-	public void loadTileSet(){
-		System.out.println("Loading " + TILESET_LOC + "...");
+	public TileType[] splitTileSet(String loc, int numRows){
+		System.out.println("Loading tile set...");
+		
+		int numTiles = 0; 
+		int tileSetWidth;
+		WritableImage[][] tileImages = null;
 		
 		try {
-			tileSet = new Image(TILESET_LOC);
-			tileSize = (int) (tileSet.getHeight() / TILESET_ROWS);
-			int tileSetWidth = (int) (tileSet.getWidth() / tileSize);
-			numTiles = tileSetWidth * TILESET_ROWS;
-
+			Image tileSet = new Image(loc);
+			tileSize = (int) (tileSet.getHeight() / numRows);
+			tileSetWidth = (int) (tileSet.getWidth() / tileSize);
+			numTiles = tileSetWidth * numRows;
+			
 			PixelReader pr = tileSet.getPixelReader();
-			tiles = new WritableImage[TILESET_ROWS][tileSetWidth];
+			tileImages = new WritableImage[numRows][tileSetWidth];
 			
 			// separates tile set image into individual tile images
 			for(int i = 0; i < tileSetWidth; i++) {
-				tiles[0][i] = new WritableImage(pr, tileSize * i, 0, tileSize, tileSize);
-				tiles[1][i] = new WritableImage(pr, tileSize * i, tileSize, tileSize, tileSize);
+				tileImages[0][i] = new WritableImage(pr, tileSize * i, 0, tileSize, tileSize);
+				tileImages[1][i] = new WritableImage(pr, tileSize * i, tileSize, tileSize, tileSize);
 			}
 			
 			System.out.println("Tile set loaded.");
@@ -54,21 +54,23 @@ public class MapLoader{
 			e.printStackTrace();
 		}
 
-		tile = new TileType[numTiles];
-		int width = numTiles / TILESET_ROWS;
+		TileType[] tiles = new TileType[numTiles];
+		int width = numTiles / numRows;
 		for(int i = 0; i < width; i++) {
-			tile[i] = new TileType(tiles[0][i], 0);
+			tiles[i] = new TileType(tileImages[0][i], 0);
 			//tile[i].setPosition(i * TILESIZE, HEIGHT - 2 * TILESIZE);
-			tile[i + width] = new TileType(tiles[1][i], 1);
+			tiles[i + width] = new TileType(tileImages[1][i], 1);
 			//tile[i + width].setPosition(i * TILESIZE, HEIGHT - TILESIZE);
 		}
+		
+		return tiles;
 	} // end loadTileSet
 	
-	public void loadMap(){
-		System.out.println("Loading " + MAP_LOC + "...");
+	public void loadMap(String loc){
+		System.out.println("Loading map...");
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(MAP_LOC));
+			BufferedReader br = new BufferedReader(new FileReader(loc));
 			
 			// first two integers in .MAP file represent map width and height respectively
 			mapWidth = Integer.parseInt(br.readLine());
@@ -97,13 +99,13 @@ public class MapLoader{
 	} // end loadMap
 
 	// draws map tile by tile
-	public void drawMap(Canvas canvas){
+	public void drawMap(Canvas canvas, TileType[] tiles){
 		g = canvas.getGraphicsContext2D();
 		
 		for(int row = 0; row < mapHeight; row++) {
 			for(int col = 0; col < mapWidth; col++) {
 				try {
-					g.drawImage(tile[mapCoor[row][col]].getImage(), col * tileSize, row * tileSize);
+					g.drawImage(tiles[mapCoor[row][col]].getImage(), col * tileSize, row * tileSize);
 				} catch(Exception e) {
 					//e.printStackTrace();
 				}
