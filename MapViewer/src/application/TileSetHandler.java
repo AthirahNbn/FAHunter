@@ -13,12 +13,11 @@ import javafx.scene.image.WritableImage;
 public class TileSetHandler{
 	
 	public static int tileSize = 30;
+	public static int mapWidth;
+	public static int mapHeight;
+	public static int[][] mapCoor;
 	
-	private GraphicsContext g;
-		
-	private int[][] mapCoor;
-	private int mapWidth;
-	private int mapHeight;
+	private GraphicsContext g;	
 	
 	public TileType[] splitTileSet(String loc, int numRows){
 		System.out.println("Loading tile set...");
@@ -60,7 +59,7 @@ public class TileSetHandler{
 		return tiles;
 	} // end loadTileSet
 	
-	public void loadMap(String loc){
+	public int[][] loadMap(String loc){
 		System.out.println("Loading map...");
 		
 		try {
@@ -90,6 +89,8 @@ public class TileSetHandler{
 			System.out.println("ERROR:\nCouldn't load map.\n");
 			e.printStackTrace();
 		}
+		
+		return mapCoor;
 	} // end loadMap
 
 	// draws map tile by tile

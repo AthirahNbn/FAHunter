@@ -8,8 +8,8 @@ public class TileType {
 	private int type;
 	
 	// tile types
-	public static final int NORMAL = 0;
-	public static final int BLOCKED = 1;
+	public static final int NORMAL = 2;
+	public static final int BLOCKED = 0;
 	
 	public TileType(Image image, int type) {
 		this.image = image;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import application.Font;
 import application.TileSetHandler;
 import application.model.TileType;
 import javafx.event.ActionEvent;
@@ -21,15 +22,15 @@ import javafx.scene.input.TransferMode;
 
 public class GUIController {
 	
-	// MUST FIND BETTER WAY TO IMPORT FILE/WRITE PATH FOR FILE
-	private File file = new File("currentcoordinates.txt");
+	private File coorFile = new File("currentcoordinates.txt");
+	private String possibleFile = "possiblegame.txt";
 	public static final String TILESET_LOC = "Resources/testtileset.gif";
 	public static final String ITEMS_LOC = "Resources/items.gif";
 	public static final String MAP_LOC = "testmap.map";
 	public static final int TILESET_ROWS = 2;
 	
-	private TileType[] mapTiles;
-	private String coorString;
+	private int[][] mapTiles;
+	private TileType[] tiles;
 	
 	private int[] coorInt = new int[4]; 
 	private int[] axeCoorInput = new int[2];
@@ -45,7 +46,12 @@ public class GUIController {
     @FXML private Button resetCoor;
     @FXML private Button saveCoor;
     
-    @FXML private Canvas canvas;    
+    @FXML private Canvas map;
+    @FXML private Canvas title;
+    @FXML private Canvas axeFont;
+    @FXML private Canvas boatFont;
+    @FXML private Canvas defaultFont;
+    @FXML private Canvas saveFont;
     
     @FXML private ImageView axeSprite;
     @FXML private ImageView boatSprite;
@@ -65,9 +71,9 @@ public class GUIController {
     	
     	// draws graphics for map and item sprites
     	TileSetHandler tsh = new TileSetHandler();
-    	mapTiles = tsh.splitTileSet(TILESET_LOC, TILESET_ROWS);
-    	tsh.loadMap(MAP_LOC);
-    	tsh.drawMap(canvas, mapTiles);
+    	tiles = tsh.splitTileSet(TILESET_LOC, TILESET_ROWS);
+    	mapTiles = tsh.loadMap(MAP_LOC);
+    	tsh.drawMap(map, tiles);
 	
     	TileType a = tsh.splitTileSet(ITEMS_LOC, TILESET_ROWS)[4];
     	axeImage = a.getImage();
@@ -78,10 +84,21 @@ public class GUIController {
     	boatImage = b.getImage();
     	boatSprite.setImage(boatImage);
     	boatSpriteOnMap.setImage(boatImage);
+    	
+    	Font f = new Font();
+    	f.loadFont();
+    	f.drawString(title, "Diamond", 0, 0, 0);	
+		f.drawString(title, "Hunter", 8, 15, 0);
+		f.drawString(title, "Map", 30, 35, 0);
+		f.drawString(title, "Viewer", 8, 50, 0);
+		f.drawString(axeFont, "Axe", 0, 8, 1);
+		f.drawString(boatFont, "Boat", 0, 8, 1);
+		f.drawString(defaultFont, "Default", 0, 8, 1);
+		f.drawString(saveFont, "Save", 0, 8, 1);
     
         // reads current in-game position of items from .TXT file
     	try {
-    		Scanner s = new Scanner(file);
+    		Scanner s = new Scanner(coorFile);
     		int i = 0;
     		
     		while(s.hasNext()) {
@@ -105,7 +122,6 @@ public class GUIController {
         boatCoorInput[0] = coorInt[2];
         boatCoorInput[1] = coorInt[3];
 
-
     	// sets image and position of items on map
     	axeSpriteOnMap.setLayoutY(coorInt[0] * TileSetHandler.tileSize);
     	axeSpriteOnMap.setLayoutX(coorInt[1] * TileSetHandler.tileSize);
@@ -116,30 +132,6 @@ public class GUIController {
     	    	
     	System.out.println("Application initialised.\n");
     }
-
-	public File getFile() {
-		return file;
-	}
-
-	public void setFile(File file) {
-		this.file = file;
-	}
-
-	public String getCoorString() {
-		return coorString;
-	}
-
-	public void setCoorString(String coorString) {
-		this.coorString = coorString;
-	}
-
-	public int[] getCoorInt() {
-		return coorInt;
-	}
-
-	public void setCoorInt(int[] coorInt) {
-		this.coorInt = coorInt;
-	}
 	
 	@FXML void showMapCoor(MouseEvent me) {
 		//System.out.println("Mouse over canvas detected.\n" + ((int) me.getX() / 16) + ", " + ((int) me.getY() / 16));
@@ -185,34 +177,24 @@ public class GUIController {
 		
 		if(db.hasString()) {
 			String spriteId = db.getString();
-			
-			//System.out.println(spriteId);
-			//System.out.println(row + ", " + col);
-			
-			//int index = row * 40 + col;
-			
-			//System.out.println(index);
-			//System.out.println(mapTiles[index]);
-		
-			//if(mapTiles[row * 40 + col].getType() == 1) {
-				//return;	
-			//}
-			
-			if(spriteId == axeSpriteOnMap.getId()) {
-				newAxeCoorLabel.setText(row + ", " + col);
-				axeSpriteOnMap.setLayoutY(row * TileSetHandler.tileSize);
-				axeSpriteOnMap.setLayoutX(col * TileSetHandler.tileSize);
-				
-				axeCoorInput[0] = row;
-				axeCoorInput[1] = col;
-			} else if(spriteId == boatSpriteOnMap.getId()) {
-				newBoatCoorLabel.setText(row + ", " + col);
-				boatSpriteOnMap.setLayoutY(row * TileSetHandler.tileSize);
-				boatSpriteOnMap.setLayoutX(col * TileSetHandler.tileSize);
-				
-				boatCoorInput[0] = row;
-				boatCoorInput[1] = col;
-			}				
+					
+			if(mapTiles[row][col] / (mapTiles.length / TILESET_ROWS)  == 0) {
+				if(spriteId == axeSpriteOnMap.getId()) {
+					newAxeCoorLabel.setText(row + ", " + col);
+					axeSpriteOnMap.setLayoutY(row * TileSetHandler.tileSize);
+					axeSpriteOnMap.setLayoutX(col * TileSetHandler.tileSize);
+					
+					axeCoorInput[0] = row;
+					axeCoorInput[1] = col;
+				} else if(spriteId == boatSpriteOnMap.getId()) {
+					newBoatCoorLabel.setText(row + ", " + col);
+					boatSpriteOnMap.setLayoutY(row * TileSetHandler.tileSize);
+					boatSpriteOnMap.setLayoutX(col * TileSetHandler.tileSize);
+					
+					boatCoorInput[0] = row;
+					boatCoorInput[1] = col;
+				}								
+			}
 		}
 		
 		itemSelLabel.setText("No item selected");
@@ -221,7 +203,7 @@ public class GUIController {
 	} // end setSprite
 	
 	@FXML void detectSpriteMove(DragEvent de) {
-		if(de.getGestureSource() != canvas && de.getDragboard().hasString()) {
+		if(de.getGestureSource() != map && de.getDragboard().hasString()) {
 			de.acceptTransferModes(TransferMode.MOVE);
 		}
 		
@@ -237,7 +219,7 @@ public class GUIController {
 			int[] coordinates = new int[4];
 			int i = 0;
 			Scanner s = new Scanner(new File("defaultcoordinates.txt"));
-			PrintWriter pw = new PrintWriter(file);
+			PrintWriter pw = new PrintWriter(coorFile);
     		
     		while(s.hasNext()) {
     			coordinates[i] = s.nextInt();
@@ -259,7 +241,7 @@ public class GUIController {
 	@FXML void saveCoor(ActionEvent ae) {
 		System.out.println("Saving new item coordinates...");
 		try {
-			PrintWriter pw = new PrintWriter(file);
+			PrintWriter pw = new PrintWriter(coorFile);
 			
 			pw.print(axeCoorInput[0] + " " + axeCoorInput[1] + " " + boatCoorInput[0] + " " + boatCoorInput[1]);
 
