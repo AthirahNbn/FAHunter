@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.GUIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.GUIController">
    <children>
       <HBox prefHeight="640.0" prefWidth="770.0" style="-fx-background-color: #A4C6DE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -35,7 +28,7 @@
                               <Insets top="5.0" />
                            </padding>
                         </Label>
-                        <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0">
+                        <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #223e5e; -fx-border-color: #4B81BE; -fx-border-width: 3px;">
                            <children>
                               <ImageView fx:id="axeSprite" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
@@ -44,9 +37,9 @@
                               </ImageView>
                               <Canvas fx:id="axeFont" height="20.0" width="50.0" />
                            </children>
-                           <padding>
-                              <Insets top="30.0" />
-                           </padding>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
                         </HBox>
                         <Label alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="In-game Position" textAlignment="CENTER" wrapText="true">
                            <padding>
@@ -71,7 +64,7 @@
                               <Insets top="5.0" />
                            </padding>
                         </Label>
-                        <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0">
+                        <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #223e5e; -fx-border-color: #4B81BE; -fx-border-width: 3px;">
                            <children>
                               <ImageView fx:id="boatSprite" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
@@ -80,9 +73,12 @@
                               </ImageView>
                               <Canvas fx:id="boatFont" height="20.0" width="50.0" />
                            </children>
-                           <padding>
-                              <Insets top="30.0" />
-                           </padding>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
                         </HBox>
                         <Label alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="In-game Position" textAlignment="CENTER" wrapText="true">
                            <padding>
@@ -109,7 +105,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </VBox>
-                  <Button fx:id="resetCoor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resetCoor" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <Button fx:id="resetCoor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resetCoor" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #7ca3d0; -fx-border-color: black; -fx-border-width: 3px;" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
@@ -117,7 +113,7 @@
                         <Canvas fx:id="defaultFont" height="25.0" width="92.0" />
                      </graphic>
                   </Button>
-                  <Button fx:id="saveCoor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveCoor" prefHeight="25.0" prefWidth="60.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <Button fx:id="saveCoor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveCoor" prefHeight="25.0" prefWidth="60.0" style="-fx-background-color: #7ca3d0; -fx-border-color: black; -fx-border-width: 3px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
@@ -132,6 +128,14 @@
                   <Canvas fx:id="map" height="640.0" onDragDropped="#setSprite" onDragOver="#detectSpriteMove" width="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <ImageView fx:id="axeSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveAxeSprite" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="boatSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveBoatSprite" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="waningBox" alignment="TOP_LEFT" layoutX="16.0" layoutY="16.0" prefHeight="78.0" prefWidth="208.0">
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                     <graphic>
+                        <Canvas fx:id="warn" height="27.0" width="118.0" />
+                     </graphic>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
