@@ -3,12 +3,14 @@ package application.view;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
-import application.TestDrawMap;
+
+import application.MapLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 public class GUIController {
 	
@@ -21,8 +23,12 @@ public class GUIController {
 	private int[] axeCoorInput = new int[2];
 	private int[] boatCoorInput = new int[2];
 	
+	@FXML private Label itemSelLabel;
+	@FXML private Label mapCoorLabel;
 	@FXML private Label axeCoorLabel;
     @FXML private Label boatCoorLabel;
+	@FXML private Label newAxeCoorLabel;
+    @FXML private Label newBoatCoorLabel;
     
     @FXML private Button resetCoor;
     @FXML private Button saveCoor;
@@ -36,10 +42,11 @@ public class GUIController {
     @FXML
     private void initialize() {  
     	System.out.println("Initialising...");
-    	TestDrawMap tdm = new TestDrawMap();
-    	tdm.loadTileSets();
-		tdm.loadMap();
-		tdm.drawMap(canvas);
+    	
+    	MapLoader ml = new MapLoader();
+    	ml.loadTileSet();
+    	ml.loadMap();
+    	ml.drawMap(canvas);
 	
         //DUMMY DATA
         axeCoorInput[0] = 18;
@@ -48,15 +55,15 @@ public class GUIController {
         boatCoorInput[1] = 42;
 
     	try {
-    		Scanner scanner = new Scanner(file);
+    		Scanner s = new Scanner(file);
     		int i = 0;
     		
-    		while(scanner.hasNext()) {
-    			coorInt[i] = scanner.nextInt();
+    		while(s.hasNext()) {
+    			coorInt[i] = s.nextInt();
     			i++;
     		}
     		
-    		scanner.close();
+    		s.close();
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
@@ -91,41 +98,47 @@ public class GUIController {
 		this.coorInt = coorInt;
 	}
 	
+	@FXML void showMapCoor(MouseEvent me) {
+		//System.out.println("Mouse over canvas detected.\n" + ((int) me.getX() / 16) + ", " + ((int) me.getY() / 16));
+		mapCoorLabel.setText(((int)me.getY() / MapLoader.tileSize) + ", " + ((int) me.getX() / MapLoader.tileSize));
+	} // end showMapCoor
+	
 	@FXML void resetCoor(ActionEvent ae) {
 		System.out.println("Resetting item coordinates to default...");
+		
 		try {
 			int[] coordinates = new int[4];
 			int i = 0;
-			Scanner scanner = new Scanner(new File("C:\\Users\\User\\Desktop\\SWM P2\\Git Repo Demo\\FAHunter\\defaultcoordinates.txt"));
-			PrintWriter pwriter = new PrintWriter(file);
+			Scanner s = new Scanner(new File("C:\\Users\\User\\Desktop\\SWM P2\\Git Repo Demo\\FAHunter\\defaultcoordinates.txt"));
+			PrintWriter pw = new PrintWriter(file);
     		
-    		while(scanner.hasNext()) {
-    			coordinates[i] = scanner.nextInt();
+    		while(s.hasNext()) {
+    			coordinates[i] = s.nextInt();
     			i++;
     		}
-			pwriter.print(coordinates[0] + " " + coordinates[1] + " " + coordinates[2] + " " + coordinates[3]);
+			pw.print(coordinates[0] + " " + coordinates[1] + " " + coordinates[2] + " " + coordinates[3]);
 			
-			scanner.close();
-			pwriter.close();
+			s.close();
+			pw.close();
 			axeCoorLabel.setText(coordinates[0] + ", " + coordinates[1]);
 	    	boatCoorLabel.setText(coordinates[2] + ", " + coordinates[3]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	} // end resetCoor
 
 	@FXML void saveCoor(ActionEvent ae) {
 		System.out.println("Saving new item coordinates...");
 		try {
-			PrintWriter pwriter = new PrintWriter(file);
+			PrintWriter pw = new PrintWriter(file);
 			
-			pwriter.print(axeCoorInput[0] + " " + axeCoorInput[1] + " " + boatCoorInput[0] + " " + boatCoorInput[1]);
+			pw.print(axeCoorInput[0] + " " + axeCoorInput[1] + " " + boatCoorInput[0] + " " + boatCoorInput[1]);
 
-			pwriter.close();
+			pw.close();
 			axeCoorLabel.setText(axeCoorInput[0] + ", " + axeCoorInput[1]);
 	    	boatCoorLabel.setText(boatCoorInput[0] + ", " + boatCoorInput[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	} // end saveCoor
 }

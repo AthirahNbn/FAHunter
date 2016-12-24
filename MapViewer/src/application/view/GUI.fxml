@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
@@ -10,7 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="752.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.GUIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="752.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.GUIController">
    <children>
       <SplitPane dividerPositions="0.29797979797979796" prefHeight="640.0" prefWidth="752.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -18,12 +24,22 @@
                <children>
                   <VBox prefHeight="500.0" prefWidth="112.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
                      <children>
-                        <Label text="Diamond Hunter Map Viewer" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                        <Label alignment="CENTER" text="Diamond Hunter Map Viewer" textAlignment="CENTER" wrapText="true">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                            <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="itemSelLabel" alignment="CENTER" text="Item Selected" textAlignment="CENTER" wrapText="true">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="45.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="mapCoorLabel" alignment="CENTER" prefWidth="100.0" text="Map Coordinates" textAlignment="CENTER" wrapText="true">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
                         <HBox prefHeight="40.0" prefWidth="200.0">
@@ -33,7 +49,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <Label text="Axe">
+                              <Label alignment="CENTER" text="Axe" textAlignment="CENTER">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
@@ -43,15 +59,30 @@
                               </Label>
                            </children>
                            <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                              <Insets left="5.0" right="5.0" top="45.0" />
                            </padding>
                         </HBox>
-                        <Label fx:id="axeCoorLabel" prefWidth="100.0" text="x, y" textAlignment="CENTER">
+                        <Label alignment="CENTER" text="In-game Position" textAlignment="CENTER" wrapText="true">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="axeCoorLabel" alignment="CENTER" prefWidth="100.0" text="x, y" textAlignment="CENTER">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                            <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label alignment="CENTER" text="New Position" textAlignment="CENTER" wrapText="true">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="newAxeCoorLabel" alignment="CENTER" prefWidth="100.0" text="x, y" textAlignment="CENTER">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
                         <HBox prefHeight="40.0" prefWidth="200.0">
@@ -61,19 +92,34 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <Label text="Boat">
+                              <Label alignment="CENTER" text="Boat" textAlignment="CENTER">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Label>
                            </children>
                            <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                              <Insets left="5.0" right="5.0" top="45.0" />
                            </padding>
                         </HBox>
-                        <Label fx:id="boatCoorLabel" prefWidth="100.0" text="x, y" textAlignment="CENTER">
+                        <Label alignment="CENTER" text="In-game Position" textAlignment="CENTER" wrapText="true">
                            <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="boatCoorLabel" alignment="CENTER" prefWidth="100.0" text="x, y">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label alignment="CENTER" text="New Position" textAlignment="CENTER" wrapText="true">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="newBoatCoorLabel" alignment="CENTER" prefWidth="100.0" text="x, y">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
                      </children>
@@ -95,7 +141,7 @@
             </AnchorPane>
           <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0">
                <children>
-                  <Canvas fx:id="canvas" height="640.0" width="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Canvas fx:id="canvas" height="640.0" onMouseMoved="#showMapCoor" width="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
         </items>
