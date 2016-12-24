@@ -7,7 +7,9 @@ package com.neet.DiamondHunter.GameState;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.neet.DiamondHunter.Entity.Diamond;
 import com.neet.DiamondHunter.Entity.Item;
@@ -55,6 +57,11 @@ public class PlayState extends GameState {
 	// transition box
 	private ArrayList<Rectangle> boxes;
 	
+	// G52SWM COURSEWORK
+	// item positioning
+	private int[] itemPos;
+	File loc = new File("currentcoordinates.txt");
+	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
 	}
@@ -76,6 +83,7 @@ public class PlayState extends GameState {
 		
 		// fill lists
 		populateDiamonds();
+		itemPosition(); // G52SWM COURSEWORK
 		populateItems();
 		
 		// initialize player
@@ -110,7 +118,7 @@ public class PlayState extends GameState {
 		eventStart();
 			
 	}
-	
+
 	private void populateDiamonds() {
 		
 		Diamond d;
@@ -170,18 +178,40 @@ public class PlayState extends GameState {
 		
 	}
 	
+	// G52SWM COURSEWORK
+	// reads item positions from .TXT file
+	private void itemPosition() {
+		itemPos = new int[4];
+		
+		try {
+    		Scanner s = new Scanner(loc);
+    		int i = 0;
+    		
+    		// first two integers represent (row, col) coordinates for axe
+    		// last two integers represent (row, col) coordinates for boat
+    		while(s.hasNext()) {
+    			itemPos[i] = s.nextInt();
+    			i++;
+    		}
+    		
+    		s.close();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+	}
+	
 	private void populateItems() {
 		
 		Item item;
 		
 		item = new Item(tileMap);
 		item.setType(Item.AXE);
-		item.setTilePosition(26, 37);
+		item.setTilePosition(itemPos[0], itemPos[1]);
 		items.add(item);
 		
 		item = new Item(tileMap);
 		item.setType(Item.BOAT);
-		item.setTilePosition(12, 4);
+		item.setTilePosition(itemPos[2], itemPos[3]);
 		items.add(item);
 		
 	}
