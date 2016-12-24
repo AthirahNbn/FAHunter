@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
@@ -21,7 +22,7 @@ import javafx.scene.input.TransferMode;
 public class GUIController {
 	
 	// MUST FIND BETTER WAY TO IMPORT FILE/WRITE PATH FOR FILE
-	private File file = new File("C:\\Users\\User\\Desktop\\SWM P2\\Git Repo Demo\\FAHunter\\currentcoordinates.txt");
+	private File file = new File("currentcoordinates.txt");
 	public static final String TILESET_LOC = "Resources/testtileset.gif";
 	public static final String ITEMS_LOC = "Resources/items.gif";
 	public static final String MAP_LOC = "testmap.map";
@@ -77,13 +78,7 @@ public class GUIController {
     	boatImage = b.getImage();
     	boatSprite.setImage(boatImage);
     	boatSpriteOnMap.setImage(boatImage);
-    	
-        //DUMMY DATA
-        axeCoorInput[0] = 18;
-        axeCoorInput[1] = 19;
-        boatCoorInput[0] = 20;
-        boatCoorInput[1] = 42;
-
+    
         // reads current in-game position of items from .TXT file
     	try {
     		Scanner s = new Scanner(file);
@@ -101,14 +96,24 @@ public class GUIController {
     	
     	// prints coordinates of items on map
     	axeCoorLabel.setText(coorInt[0] + ", " + coorInt[1]);
+    	newAxeCoorLabel.setText(coorInt[0] + ", " + coorInt[1]);
     	boatCoorLabel.setText(coorInt[2] + ", " + coorInt[3]);
+    	newBoatCoorLabel.setText(coorInt[2] + ", " + coorInt[3]);
+    	
+    	axeCoorInput[0] = coorInt[0];
+        axeCoorInput[1] = coorInt[1];
+        boatCoorInput[0] = coorInt[2];
+        boatCoorInput[1] = coorInt[3];
+
 
     	// sets image and position of items on map
     	axeSpriteOnMap.setLayoutY(coorInt[0] * TileSetHandler.tileSize);
     	axeSpriteOnMap.setLayoutX(coorInt[1] * TileSetHandler.tileSize);
+    	axeSpriteOnMap.setId("Axe" + this.getClass().getSimpleName());
     	boatSpriteOnMap.setLayoutY(coorInt[2] * TileSetHandler.tileSize);
     	boatSpriteOnMap.setLayoutX(coorInt[3] * TileSetHandler.tileSize);
-    	
+    	boatSpriteOnMap.setId("Boat" + this.getClass().getSimpleName());
+    	    	
     	System.out.println("Application initialised.\n");
     }
 
@@ -140,22 +145,90 @@ public class GUIController {
 		//System.out.println("Mouse over canvas detected.\n" + ((int) me.getX() / 16) + ", " + ((int) me.getY() / 16));
 		mapCoorLabel.setText(((int)me.getY() / TileSetHandler.tileSize) + ", " + ((int) me.getX() / TileSetHandler.tileSize));
 	} // end showMapCoor
+
+	// detects drag on axe sprite
+	@FXML void moveAxeSprite(MouseEvent me) {
+		System.out.println("Dragging item sprite around.");
+			
+		Dragboard db = axeSpriteOnMap.startDragAndDrop(TransferMode.MOVE);
+		ClipboardContent cc = new ClipboardContent();
+		cc.putString(axeSpriteOnMap.getId());
+		db.setContent(cc);
+		db.setDragView(axeImage);
+			
+		itemSelLabel.setText("Axe selected");
+			
+		me.consume();
+	} // end moveAxeSprite
 	
+	// detects drag on boat sprite
 	@FXML void moveBoatSprite(MouseEvent me) {
 		System.out.println("Dragging item sprite around.");
 		
 		Dragboard db = boatSpriteOnMap.startDragAndDrop(TransferMode.MOVE);
 		ClipboardContent cc = new ClipboardContent();
-		cc.putImage(boatImage);
+		cc.putString(boatSpriteOnMap.getId());
 		db.setContent(cc);
-		//db.setDragView(boatImage);
+		db.setDragView(boatImage);
+		
+		itemSelLabel.setText("Boat selected");
 		
 		me.consume();
 	} // end moveBoatSprite
 	
-	@FXML void setBoatSprite(MouseEvent me) {
-		me.consume();
-	} // end setBoatSprite
+	// sets item sprites to new position
+	@FXML void setSprite(DragEvent de) {
+		int col = (int) de.getX() / TileSetHandler.tileSize;
+		int row = (int) de.getY() / TileSetHandler.tileSize;
+		
+		Dragboard db = de.getDragboard();
+		
+		if(db.hasString()) {
+			String spriteId = db.getString();
+			
+			//System.out.println(spriteId);
+			//System.out.println(row + ", " + col);
+			
+			//int index = row * 40 + col;
+			
+			//System.out.println(index);
+			//System.out.println(mapTiles[index]);
+		
+			//if(mapTiles[row * 40 + col].getType() == 1) {
+				//return;	
+			//}
+			
+			if(spriteId == axeSpriteOnMap.getId()) {
+				newAxeCoorLabel.setText(row + ", " + col);
+				axeSpriteOnMap.setLayoutY(row * TileSetHandler.tileSize);
+				axeSpriteOnMap.setLayoutX(col * TileSetHandler.tileSize);
+				
+				axeCoorInput[0] = row;
+				axeCoorInput[1] = col;
+			} else if(spriteId == boatSpriteOnMap.getId()) {
+				newBoatCoorLabel.setText(row + ", " + col);
+				boatSpriteOnMap.setLayoutY(row * TileSetHandler.tileSize);
+				boatSpriteOnMap.setLayoutX(col * TileSetHandler.tileSize);
+				
+				boatCoorInput[0] = row;
+				boatCoorInput[1] = col;
+			}				
+		}
+		
+		itemSelLabel.setText("No item selected");
+		
+		de.consume();
+	} // end setSprite
+	
+	@FXML void detectSpriteMove(DragEvent de) {
+		if(de.getGestureSource() != canvas && de.getDragboard().hasString()) {
+			de.acceptTransferModes(TransferMode.MOVE);
+		}
+		
+		mapCoorLabel.setText(((int)de.getY() / TileSetHandler.tileSize) + ", " + ((int) de.getX() / TileSetHandler.tileSize));
+		
+		de.consume();
+	} //end detectSpriteMove
 	
 	@FXML void resetCoor(ActionEvent ae) {
 		System.out.println("Resetting item coordinates to default...");
@@ -163,7 +236,7 @@ public class GUIController {
 		try {
 			int[] coordinates = new int[4];
 			int i = 0;
-			Scanner s = new Scanner(new File("C:\\Users\\User\\Desktop\\SWM P2\\Git Repo Demo\\FAHunter\\defaultcoordinates.txt"));
+			Scanner s = new Scanner(new File("defaultcoordinates.txt"));
 			PrintWriter pw = new PrintWriter(file);
     		
     		while(s.hasNext()) {
@@ -174,8 +247,10 @@ public class GUIController {
 			
 			s.close();
 			pw.close();
-			axeCoorLabel.setText(coordinates[0] + ", " + coordinates[1]);
-	    	boatCoorLabel.setText(coordinates[2] + ", " + coordinates[3]);
+			
+			initialize();
+			//axeCoorLabel.setText(coordinates[0] + ", " + coordinates[1]);
+	    	//boatCoorLabel.setText(coordinates[2] + ", " + coordinates[3]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

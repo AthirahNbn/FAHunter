@@ -14,13 +14,7 @@ public class TileSetHandler{
 	
 	public static int tileSize = 30;
 	
-	private Image mapTileSet;
-	private WritableImage[][] mapTiles;
-	private int numMapTiles;
-	
 	private GraphicsContext g;
-	
-	private TileType[] mapTile;
 		
 	private int[][] mapCoor;
 	private int mapWidth;

@@ -141,9 +141,9 @@
             </AnchorPane>
           <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#showMapCoor" prefHeight="640.0" prefWidth="640.0">
                <children>
-                  <Canvas fx:id="canvas" height="640.0" width="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ImageView fx:id="axeSpriteOnMap" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="boatSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveBoatSprite" onDragDropped="#setBoatSprite" pickOnBounds="true" preserveRatio="true" />
+                  <Canvas fx:id="canvas" height="640.0" onDragDropped="#setSprite" onDragOver="#detectSpriteMove" width="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="axeSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveAxeSprite" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="boatSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveBoatSprite" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
         </items>
