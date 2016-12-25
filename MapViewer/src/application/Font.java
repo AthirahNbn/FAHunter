@@ -8,36 +8,41 @@ import javafx.scene.image.WritableImage;
 
 public class Font{
 	
-	private Image all_fonts;
-	private WritableImage[][] fonts;
-	private static double SCALE1 = 0.75;
-	private static double SCALE2 = 0.5;
+	private Image font;
+	private WritableImage[][] fontCharTitle;
+	private WritableImage[][] fontCharSubtitle;
 	private GraphicsContext g;
 	
-	public void loadFont() {
-		int w = 8, h = 8;
+    final int NUMCHAR = 8;
+	final double SCALE = 0.625;
+	
+	public WritableImage[][] loadFont(int size) {
+		
 		try {
-			all_fonts = new Image("Resources/font.gif");
-			int width = (int) (all_fonts.getWidth() / w);
-			int height = (int) (all_fonts.getHeight() / h);
-			PixelReader pr = all_fonts.getPixelReader();
-			fonts = new WritableImage[height][width];
-			for(int i = 0; i < height; i++) {
-				for(int j = 0; j < width; j++) {
-					fonts[i][j] = new WritableImage(pr, j * w, i * h, w, h);
+			font = new Image("Resources/font.gif", size * NUMCHAR, size * NUMCHAR, true, true);
+			
+			PixelReader pr = font.getPixelReader();
+			WritableImage[][] fontChar = new WritableImage[NUMCHAR][NUMCHAR];
+			for(int i = 0; i < NUMCHAR; i++) {
+				for(int j = 0; j < NUMCHAR; j++) {
+					fontChar[i][j] = new WritableImage(pr, j * size, i * size, size, size);
 				}
 			}
-		}
-		catch(Exception e) {
+			
+			return fontChar;
+		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("ERROR:\n Couldn't load font graphics.\n");
-			System.exit(0);
 		}
+		
+		return null;
 	}
 	
-	public void drawString(Canvas canvas, String s, int x, int y, int j) {
+	public void drawString(Canvas canvas, String s, int xStartPos, int yStartPos, int titletype) {
 		s = s.toUpperCase();
 		g = canvas.getGraphicsContext2D();
+		int titleCharGap = 14;
+		int subtitleCharGap = 13;
 		
 		for(int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
@@ -46,10 +51,18 @@ public class Font{
 			if(c == 32) c = 38; // space
 			if(c >= 65 && c <= 90) c -= 65; // letters
 			if(c >= 48 && c <= 57) c -= 22; // numbers
-			int row = c / fonts[0].length;
-			int col = c % fonts[0].length;
-			if (j==0) g.drawImage(fonts[row][col], x + 13 * i, y, TileSetHandler.tileSize*SCALE1, TileSetHandler.tileSize*SCALE1);
-			else g.drawImage(fonts[row][col], x + 14 * i, y, TileSetHandler.tileSize*SCALE2, TileSetHandler.tileSize*SCALE2);
+			
+			fontCharTitle = loadFont(TileSetHandler.tileSize);
+			fontCharSubtitle = loadFont(TileSetHandler.tileSize / 4 * 3);
+			
+			int titleRow = c / fontCharTitle[0].length;
+			int titleCol = c % fontCharTitle[0].length;
+			int subtitleRow = c / fontCharSubtitle[0].length;
+			int subtitleCol = c % fontCharSubtitle[0].length;
+
+			
+			if (titletype == 0) g.drawImage(fontCharTitle[titleRow][titleCol], xStartPos + i * titleCharGap, yStartPos);
+			else g.drawImage(fontCharSubtitle[subtitleRow][subtitleCol], xStartPos + i * subtitleCharGap, yStartPos);
 		}
 	}
 }

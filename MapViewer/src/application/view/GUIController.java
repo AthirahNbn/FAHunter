@@ -93,15 +93,14 @@ public class GUIController {
 		
     	Font f = new Font();
   
-    	f.loadFont();
     	f.drawString(title, "Diamond", 0, 0, 0);	
 		f.drawString(title, "Hunter", 8, 15, 0);
 		f.drawString(title, "Map", 30, 35, 0);
 		f.drawString(title, "Viewer", 8, 50, 0);
-		f.drawString(axeFont, "Axe", 0, 8, 1);
-		f.drawString(boatFont, "Boat", 0, 8, 1);
-		f.drawString(defaultFont, "Default", 0, 8, 1);
-		f.drawString(saveFont, "Save", 0, 8, 1);
+		f.drawString(axeFont, "Axe", 0, 4, 1);
+		f.drawString(boatFont, "Boat", 0, 4, 1);
+		f.drawString(defaultFont, "Default", 0, 6, 1);
+		f.drawString(saveFont, "Save", 20, 6, 1);
     
         // reads current in-game position of items from .TXT file
     	try {
