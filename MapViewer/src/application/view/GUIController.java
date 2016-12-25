@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import application.CoordinatesReader;
 import application.Font;
 import application.TileSetHandler;
 import application.model.TileType;
@@ -23,14 +24,15 @@ import javafx.scene.input.TransferMode;
 public class GUIController {
 	
 	private File coorFile = new File("currentcoordinates.txt");
-	private String possibleFile = "possiblegame.txt";
+	private String nonSafeFile = "nonsafetiles.txt";
 	public static final String TILESET_LOC = "Resources/testtileset.gif";
 	public static final String ITEMS_LOC = "Resources/items.gif";
 	public static final String MAP_LOC = "testmap.map";
 	public static final int TILESET_ROWS = 2;
+	public static TileType[][] mapTileData;
 	
-	private int[][] mapTiles;
-	private TileType[] tiles;
+	private TileType[] mapTileImageKey;
+	private int[][] mapTokens;
 	
 	private int[] coorInt = new int[4]; 
 	private int[] axeCoorInput = new int[2];
@@ -71,9 +73,10 @@ public class GUIController {
     	
     	// draws graphics for map and item sprites
     	TileSetHandler tsh = new TileSetHandler();
-    	tiles = tsh.splitTileSet(TILESET_LOC, TILESET_ROWS);
-    	mapTiles = tsh.loadMap(MAP_LOC);
-    	tsh.drawMap(map, tiles);
+    	mapTileImageKey = tsh.splitTileSet(TILESET_LOC, TILESET_ROWS);
+    	mapTokens = tsh.loadMap(MAP_LOC);
+    	mapTileData = tsh.getTileData(mapTileImageKey, mapTokens);
+    	tsh.drawMap(map, mapTileData);
 	
     	TileType a = tsh.splitTileSet(ITEMS_LOC, TILESET_ROWS)[4];
     	axeImage = a.getImage();
@@ -85,7 +88,11 @@ public class GUIController {
     	boatSprite.setImage(boatImage);
     	boatSpriteOnMap.setImage(boatImage);
     	
+    	CoordinatesReader cr = new CoordinatesReader();
+		mapTileData = cr.loadCoor(nonSafeFile, mapTileData);
+		
     	Font f = new Font();
+  
     	f.loadFont();
     	f.drawString(title, "Diamond", 0, 0, 0);	
 		f.drawString(title, "Hunter", 8, 15, 0);
@@ -134,13 +141,12 @@ public class GUIController {
     }
 	
 	@FXML void showMapCoor(MouseEvent me) {
-		//System.out.println("Mouse over canvas detected.\n" + ((int) me.getX() / 16) + ", " + ((int) me.getY() / 16));
 		mapCoorLabel.setText(((int)me.getY() / TileSetHandler.tileSize) + ", " + ((int) me.getX() / TileSetHandler.tileSize));
 	} // end showMapCoor
 
 	// detects drag on axe sprite
 	@FXML void moveAxeSprite(MouseEvent me) {
-		System.out.println("Dragging item sprite around.");
+		System.out.println("Dragging axe sprite around.");
 			
 		Dragboard db = axeSpriteOnMap.startDragAndDrop(TransferMode.MOVE);
 		ClipboardContent cc = new ClipboardContent();
@@ -155,7 +161,7 @@ public class GUIController {
 	
 	// detects drag on boat sprite
 	@FXML void moveBoatSprite(MouseEvent me) {
-		System.out.println("Dragging item sprite around.");
+		System.out.println("Dragging boat sprite around.");
 		
 		Dragboard db = boatSpriteOnMap.startDragAndDrop(TransferMode.MOVE);
 		ClipboardContent cc = new ClipboardContent();
@@ -177,9 +183,9 @@ public class GUIController {
 		
 		if(db.hasString()) {
 			String spriteId = db.getString();
-					
-			if(mapTiles[row][col] / (mapTiles.length / TILESET_ROWS)  == 0) {
-				if(spriteId == axeSpriteOnMap.getId()) {
+			
+			if(mapTileData[row][col].getType() > 0) {
+				if(spriteId == axeSpriteOnMap.getId() && mapTileData[row][col].getType() == 2) {
 					newAxeCoorLabel.setText(row + ", " + col);
 					axeSpriteOnMap.setLayoutY(row * TileSetHandler.tileSize);
 					axeSpriteOnMap.setLayoutX(col * TileSetHandler.tileSize);

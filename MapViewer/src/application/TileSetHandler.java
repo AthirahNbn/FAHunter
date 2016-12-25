@@ -12,11 +12,10 @@ import javafx.scene.image.WritableImage;
 
 public class TileSetHandler{
 	
-	public static int tileSize = 30;
+	public static int tileSize;
 	public static int mapWidth;
 	public static int mapHeight;
-	public static int[][] mapCoor;
-	
+
 	private GraphicsContext g;	
 	
 	public TileType[] splitTileSet(String loc, int numRows){
@@ -50,10 +49,8 @@ public class TileSetHandler{
 		TileType[] tiles = new TileType[numTiles];
 		int width = numTiles / numRows;
 		for(int i = 0; i < width; i++) {
-			tiles[i] = new TileType(tileImages[0][i], 0);
-			//tile[i].setPosition(i * TILESIZE, HEIGHT - 2 * TILESIZE);
-			tiles[i + width] = new TileType(tileImages[1][i], 1);
-			//tile[i + width].setPosition(i * TILESIZE, HEIGHT - TILESIZE);
+			tiles[i] = new TileType(tileImages[0][i], TileType.SAFE);
+			tiles[i + width] = new TileType(tileImages[1][i], TileType.BLOCKED);
 		}
 		
 		return tiles;
@@ -68,7 +65,7 @@ public class TileSetHandler{
 			// first two integers in .MAP file represent map width and height respectively
 			mapWidth = Integer.parseInt(br.readLine());
 			mapHeight = Integer.parseInt(br.readLine());;
-			mapCoor = new int[mapHeight][mapWidth];
+			int[][] mapTokens = new int[mapHeight][mapWidth];
 			String delim = "\\s+"; //one or more whitespace characters
 			
 			// reads tile types for tiles in map
@@ -79,28 +76,44 @@ public class TileSetHandler{
 				
 				// sets tile type for each tile according to map coordinates (row, col) for map drawing
 				for(int col = 0; col < mapWidth; col++) {
-					mapCoor[row][col] = Integer.parseInt(tokens[col]);
+					mapTokens[row][col] = Integer.parseInt(tokens[col]);
 				}
 			}
+			
 			br.close();
 			System.out.println("Map loaded.");
+			
+			return mapTokens;
 		}
 		catch(Exception e) {
 			System.out.println("ERROR:\nCouldn't load map.\n");
 			e.printStackTrace();
 		}
 		
-		return mapCoor;
+		return null;
 	} // end loadMap
 
+	public TileType[][] getTileData(TileType[] tileTypes, int[][] tokens) {
+		TileType[][] tilesData = new TileType[mapHeight][mapWidth];
+		
+		for(int row = 0; row < mapHeight; row++) {
+			for(int col = 0; col < mapWidth; col++) {
+				TileType t = tileTypes[tokens[row][col]];
+				tilesData[row][col] = new TileType(t.getImage(), t.getType());
+			}
+		}
+		
+		return tilesData;
+	} // end genTileData
+	
 	// draws map tile by tile
-	public void drawMap(Canvas canvas, TileType[] tiles){
+	public void drawMap(Canvas canvas, TileType[][] tiles){
 		g = canvas.getGraphicsContext2D();
 		
 		for(int row = 0; row < mapHeight; row++) {
 			for(int col = 0; col < mapWidth; col++) {
 				try {
-					g.drawImage(tiles[mapCoor[row][col]].getImage(), col * tileSize, row * tileSize);
+					g.drawImage(tiles[row][col].getImage(), col * tileSize, row * tileSize);
 				} catch(Exception e) {
 					//e.printStackTrace();
 				}
