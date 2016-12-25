@@ -17,15 +17,17 @@ public class TileType {
 		this.type = type;
 	}
 	
+	// get image
 	public Image getImage() { 
 		return image; 
 	}
 	
+	// set type
 	public void setType (int type) { 
 		this.type = type; 
 	}
 	
-	
+	// get type
 	public int getType() { 
 		return type; 
 	}

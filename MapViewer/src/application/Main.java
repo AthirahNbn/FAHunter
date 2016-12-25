@@ -1,3 +1,18 @@
+/**
+ * 
+* This program is a Map Viewer application that will display 
+* the whole map of the game, Diamond Hunter.
+* 
+* Main class is to run the source code and display user interface
+* for the map viewer.
+* 
+* @author Athirah Binti Noorbaidrulnizar (014351)
+* @author Fateen Farhanah Mohd Nasri (015419)
+* @author Hanisah Binti Mohd Radzi (015382)
+* @version 1.0
+* @since   2016-12-15 
+*/
+
 package application;
 	
 import javafx.application.Application;

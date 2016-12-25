@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 
+
 public class Font{
 	
 	private Image font;
@@ -16,6 +17,7 @@ public class Font{
     final int NUMCHAR = 8;
 	final double SCALE = 0.625;
 	
+	//Split font tile set to individual characters
 	public WritableImage[][] loadFont(int size) {
 		
 		try {
@@ -36,8 +38,9 @@ public class Font{
 		}
 		
 		return null;
-	}
+	}// end loadFont
 	
+	//Draw font
 	public void drawString(Canvas canvas, String s, int xStartPos, int yStartPos, int titletype) {
 		s = s.toUpperCase();
 		g = canvas.getGraphicsContext2D();
@@ -64,5 +67,5 @@ public class Font{
 			if (titletype == 0) g.drawImage(fontCharTitle[titleRow][titleCol], xStartPos + i * titleCharGap, yStartPos);
 			else g.drawImage(fontCharSubtitle[subtitleRow][subtitleCol], xStartPos + i * subtitleCharGap, yStartPos);
 		}
-	}
+	}// end drawString
 }

@@ -224,6 +224,7 @@ public class GUIController {
 		de.consume();
 	} // end setSprite
 	
+	//Detection of drag item
 	@FXML void detectSpriteMove(DragEvent de) {
 		if(de.getGestureSource() != map && de.getDragboard().hasString()) {
 			de.acceptTransferModes(TransferMode.MOVE);
@@ -234,6 +235,7 @@ public class GUIController {
 		de.consume();
 	} //end detectSpriteMove
 	
+	//Reset button
 	@FXML void resetCoor(ActionEvent ae) {
 		System.out.println("Resetting item coordinates to default...");
 		
@@ -263,6 +265,7 @@ public class GUIController {
 		}
 	} // end resetCoor
 
+	//Save button
 	@FXML void saveCoor(ActionEvent ae) {
 		System.out.println("Saving new item coordinates...");
 		try {
@@ -281,6 +284,7 @@ public class GUIController {
 		}
 	} // end saveCoor
 	
+	//Play button
 	@FXML void playGame(){
         try {
             System.out.println("Launching game...");
@@ -305,6 +309,7 @@ public class GUIController {
         }
     } // end playButtton
 	
+	//Warning box
 	public void showMessage(int event) {
 		Font f = new Font();
 		
@@ -338,6 +343,6 @@ public class GUIController {
 			messageBox.setVisible(false);
 		});
 		p.play();
-	}// end warning box
+	}// end showMessage
 	
 }

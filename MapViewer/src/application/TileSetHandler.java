@@ -18,6 +18,7 @@ public class TileSetHandler{
 
 	private GraphicsContext g;	
 	
+	//Read tile set
 	public TileType[] splitTileSet(String loc, int numRows){
 		System.out.println("Loading tile set...");
 		
@@ -56,6 +57,7 @@ public class TileSetHandler{
 		return tiles;
 	} // end loadTileSet
 	
+	//Read map -for each tile
 	public int[][] loadMap(String loc){
 		System.out.println("Loading map...");
 		
@@ -93,6 +95,7 @@ public class TileSetHandler{
 		return null;
 	} // end loadMap
 
+	//Read types of tile
 	public TileType[][] getTileData(TileType[] tileTypes, int[][] tokens) {
 		TileType[][] tilesData = new TileType[mapHeight][mapWidth];
 		
@@ -104,7 +107,7 @@ public class TileSetHandler{
 		}
 		
 		return tilesData;
-	} // end genTileData
+	} // end getTileData
 	
 	// draws map tile by tile
 	public void drawMap(Canvas canvas, TileType[][] tiles){
