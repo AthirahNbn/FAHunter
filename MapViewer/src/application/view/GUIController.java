@@ -9,6 +9,7 @@ import application.CoordinatesReader;
 import application.Font;
 import application.TileSetHandler;
 import application.model.TileType;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -21,6 +22,8 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 public class GUIController {
 	
@@ -45,6 +48,7 @@ public class GUIController {
     @FXML private Label boatCoorLabel;
 	@FXML private Label newAxeCoorLabel;
     @FXML private Label newBoatCoorLabel;
+    @FXML private Label message;
     
     @FXML private Button playButton;
     @FXML private Button resetCoor;
@@ -56,11 +60,14 @@ public class GUIController {
     @FXML private Canvas boatFont;
     @FXML private Canvas defaultFont;
     @FXML private Canvas saveFont;
+    @FXML private Canvas messageTitle;
     
     @FXML private ImageView axeSprite;
     @FXML private ImageView boatSprite;
     @FXML private ImageView axeSpriteOnMap;
     @FXML private ImageView boatSpriteOnMap;
+    
+    @FXML private HBox messageBox;
     
     private Image axeImage;
     private Image boatImage;
@@ -201,6 +208,8 @@ public class GUIController {
 					boatCoorInput[0] = row;
 					boatCoorInput[1] = col;
 				}								
+			}else {
+				showMessage(0);
 			}
 		}
 		
@@ -240,6 +249,7 @@ public class GUIController {
 			initialize();
 			//axeCoorLabel.setText(coordinates[0] + ", " + coordinates[1]);
 	    	//boatCoorLabel.setText(coordinates[2] + ", " + coordinates[3]);
+		    showMessage(3);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -280,4 +290,40 @@ public class GUIController {
             e1.printStackTrace();
         }
     } // end playButtton
+	
+	public void showMessage(int event) {
+		Font f = new Font();
+		
+		switch(event) {
+		// error message
+		case 0:
+			f.drawString(messageTitle, "Error:", 0, 4, 1);
+			message.setText("Invalid position. Will result in an impossible game.");
+			break;
+		// save message
+		case 1:
+			f.drawString(messageTitle, "Success:", 0, 4, 1);
+			message.setText("New item positions successfully saved.");
+			break;
+		// reset message
+		case 2:
+			f.drawString(messageTitle, "Success:", 0, 4, 1);
+			message.setText("Item positions successfully reset and saved.");
+			break;
+		// game launch message
+		case 3:
+			f.drawString(messageTitle, "Success:", 0, 4, 1);
+			message.setText("Game successfully launched.");
+			break;
+		}
+		
+		messageBox.setVisible(true);
+		
+		PauseTransition p = new PauseTransition(Duration.seconds(4));
+		p.setOnFinished(ActionEvent -> {
+			messageBox.setVisible(false);
+		});
+		p.play();
+	}// end warning box
+	
 }
