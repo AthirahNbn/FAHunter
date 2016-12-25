@@ -144,6 +144,8 @@ public class GUIController {
     	boatSpriteOnMap.setLayoutY(coorInt[2] * TileSetHandler.tileSize);
     	boatSpriteOnMap.setLayoutX(coorInt[3] * TileSetHandler.tileSize);
     	boatSpriteOnMap.setId("Boat" + this.getClass().getSimpleName());
+    	
+    	messageBox.setVisible(false);
     	    	
     	System.out.println("Application initialised.\n");
     }
@@ -249,7 +251,7 @@ public class GUIController {
 			initialize();
 			//axeCoorLabel.setText(coordinates[0] + ", " + coordinates[1]);
 	    	//boatCoorLabel.setText(coordinates[2] + ", " + coordinates[3]);
-		    showMessage(3);
+		    showMessage(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -265,6 +267,7 @@ public class GUIController {
 			pw.close();
 			axeCoorLabel.setText(axeCoorInput[0] + ", " + axeCoorInput[1]);
 	    	boatCoorLabel.setText(boatCoorInput[0] + ", " + boatCoorInput[1]);
+	    	showMessage(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -275,6 +278,7 @@ public class GUIController {
             System.out.println("Calling jar");
 
             Process p = Runtime.getRuntime().exec("java -jar DiamondHunter.jar arg1 arg2");
+            showMessage(3);
 
             BufferedInputStream bis = new BufferedInputStream(p.getInputStream());
             synchronized (p) {
