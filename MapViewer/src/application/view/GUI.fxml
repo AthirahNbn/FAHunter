@@ -133,6 +133,19 @@
             </AnchorPane>
           <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#showMapCoor" prefHeight="640.0" prefWidth="640.0">
                <children>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #223e5e; -fx-border-color: #4B81BE; -fx-border-width: 3px;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                     <children>
+                        <Canvas height="32.0" width="200.0" />
+                        <Label text="Warning/update message" textAlignment="CENTER" textFill="WHITE">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                   <Canvas fx:id="map" height="640.0" onDragDropped="#setSprite" onDragOver="#detectSpriteMove" width="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <ImageView fx:id="axeSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveAxeSprite" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="boatSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveBoatSprite" pickOnBounds="true" preserveRatio="true" />
