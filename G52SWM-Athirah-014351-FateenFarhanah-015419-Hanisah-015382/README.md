@@ -24,7 +24,7 @@ How to use the program
 
 MapViewer Application
 
-1) When the Map Viewer application is executed, you can see the 
+1) When the Map Viewer application (MapViewer.jar) is executed, you can see the 
    whole map of the game, Diamond Hunter displayed at the right 
    part of the program.
 
@@ -43,4 +43,4 @@ MapViewer Application
    3.2) You can also just use the default coordinates set by the program by 
         clicking the reset button.
 
-   3.3) Click the play button to open the Diamond Hunter game. 
+   3.3) Click the play button to open the Diamond Hunter game (DiamondHunter.jar). 
