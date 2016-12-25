@@ -105,6 +105,14 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </VBox>
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #7ca3d0; -fx-border-color: black; -fx-border-width: 3px;" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                     <graphic>
+                        <Canvas height="25.0" width="92.0" />
+                     </graphic>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </Button>
                   <Button fx:id="resetCoor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resetCoor" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #7ca3d0; -fx-border-color: black; -fx-border-width: 3px;" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
