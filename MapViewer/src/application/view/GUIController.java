@@ -50,7 +50,7 @@ public class GUIController {
     @FXML private Label newBoatCoorLabel;
     @FXML private Label message;
     
-    @FXML private Button playButton;
+    @FXML private Button playGame;
     @FXML private Button resetCoor;
     @FXML private Button saveCoor;
     
@@ -60,6 +60,7 @@ public class GUIController {
     @FXML private Canvas boatFont;
     @FXML private Canvas defaultFont;
     @FXML private Canvas saveFont;
+    @FXML private Canvas playFont;
     @FXML private Canvas messageTitle;
     
     @FXML private ImageView axeSprite;
@@ -108,8 +109,9 @@ public class GUIController {
 		f.drawString(title, "Viewer", 8, 50, 0);
 		f.drawString(axeFont, "Axe", 0, 4, 1);
 		f.drawString(boatFont, "Boat", 0, 4, 1);
-		f.drawString(defaultFont, "Default", 0, 6, 1);
+		f.drawString(defaultFont, "Reset", 15, 6, 1);
 		f.drawString(saveFont, "Save", 20, 6, 1);
+		f.drawString(playFont, "Play", 20, 8, 1);
     
         // reads current in-game position of items from .TXT file
     	try {
@@ -190,6 +192,8 @@ public class GUIController {
 		int row = (int) de.getY() / TileSetHandler.tileSize;
 		
 		Dragboard db = de.getDragboard();
+		//CoordinatesReader cr = new CoordinatesReader();
+		System.out.println("BOAT TYPE " + mapTileData[boatCoorInput[0]][boatCoorInput[1]].getType());
 		
 		if(db.hasString()) {
 			String spriteId = db.getString();
@@ -210,7 +214,7 @@ public class GUIController {
 					boatCoorInput[0] = row;
 					boatCoorInput[1] = col;
 				}								
-			}else {
+			} else {
 				showMessage(0);
 			}
 		}
@@ -249,8 +253,10 @@ public class GUIController {
 			pw.close();
 			
 			initialize();
+			
 			//axeCoorLabel.setText(coordinates[0] + ", " + coordinates[1]);
 	    	//boatCoorLabel.setText(coordinates[2] + ", " + coordinates[3]);
+			
 		    showMessage(2);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -265,33 +271,37 @@ public class GUIController {
 			pw.print(axeCoorInput[0] + " " + axeCoorInput[1] + " " + boatCoorInput[0] + " " + boatCoorInput[1]);
 
 			pw.close();
+			
 			axeCoorLabel.setText(axeCoorInput[0] + ", " + axeCoorInput[1]);
 	    	boatCoorLabel.setText(boatCoorInput[0] + ", " + boatCoorInput[1]);
+	    	
 	    	showMessage(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	} // end saveCoor
 	
-	@FXML void playButton(){
+	@FXML void playGame(){
         try {
-            System.out.println("Calling jar");
+            System.out.println("Launching game...");
 
             Process p = Runtime.getRuntime().exec("java -jar DiamondHunter.jar arg1 arg2");
-            showMessage(3);
 
             BufferedInputStream bis = new BufferedInputStream(p.getInputStream());
             synchronized (p) {
               p.waitFor();
             }
+            
             System.out.println(p.exitValue());
 
-            int b=0;
-            while((b=bis.read()) >0){
-              System.out.print((char)b);   
+            int b = 0;
+            while((b = bis.read()) > 0) {
+            	System.out.print((char) b);   
             }
-        } catch (Exception e1) {
-            e1.printStackTrace();
+            
+            showMessage(3);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     } // end playButtton
 	

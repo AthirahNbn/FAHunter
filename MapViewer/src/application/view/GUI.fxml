@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
@@ -9,13 +16,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.GUIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.GUIController">
    <children>
       <HBox prefHeight="640.0" prefWidth="770.0" style="-fx-background-color: #A4C6DE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
           <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="130.0">
                <children>
-                  <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="125.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                  <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="125.0" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                      <children>
                         <Canvas fx:id="title" height="92.0" width="105.0" />
                         <Label fx:id="itemSelLabel" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="No item selected" textAlignment="CENTER" wrapText="true">
@@ -105,9 +112,9 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </VBox>
-                  <Button fx:id="playButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#playButton" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #7ca3d0; -fx-border-color: black; -fx-border-width: 3px;" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <Button fx:id="playGame" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#playGame" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #7ca3d0; -fx-border-color: black; -fx-border-width: 3px;" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <graphic>
-                        <Canvas height="25.0" width="92.0" />
+                        <Canvas fx:id="playFont" height="25.0" width="92.0" />
                      </graphic>
                      <padding>
                         <Insets bottom="5.0" />
@@ -136,27 +143,25 @@
                   <Canvas fx:id="map" height="640.0" onDragDropped="#setSprite" onDragOver="#detectSpriteMove" width="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <ImageView fx:id="axeSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveAxeSprite" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="boatSpriteOnMap" fitHeight="16.0" fitWidth="16.0" onDragDetected="#moveBoatSprite" pickOnBounds="true" preserveRatio="true" />
-                  <HBox fx:id="messageBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #223e5e; -fx-border-color: #4B81BE; -fx-border-width: 3px;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                  <HBox fx:id="messageBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #223e5e; -fx-border-color: #4B81BE; -fx-border-width: 3px;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
                      <children>
-                        <Canvas fx:id="messageTitle" height="32.0" width="200.0" />
-                        <Label fx:id="message" text="Warning/update message" textAlignment="CENTER" textFill="WHITE">
+                        <Canvas fx:id="messageTitle" height="20.0" width="100.0">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin></Canvas>
+                        <Label fx:id="message" text="Message" textAlignment="CENTER" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
                         </Label>
                      </children>
                   </HBox>
-                  <Label fx:id="waningBox" alignment="TOP_LEFT" layoutX="16.0" layoutY="16.0" prefHeight="78.0" prefWidth="208.0">
-                     <padding>
-                        <Insets left="15.0" />
-                     </padding>
-                     <graphic>
-                        <Canvas fx:id="warn" height="27.0" width="118.0" />
-                     </graphic>
-                  </Label>
                </children>
             </AnchorPane>
          </children>

@@ -8,6 +8,8 @@ import application.model.TileType;
 
 public class CoordinatesReader {
 	
+	public String[] specialCases = {"25 11", "26 9 10 11", "27 8 9 10", "28 8 9", "37 35 36 37", "38 36"};
+	
 	public ArrayList<String> genFreeTiles(TileType[][] tileData) {
 		ArrayList<String> freeTiles = new ArrayList<String>();
 		
@@ -62,4 +64,29 @@ public class CoordinatesReader {
 		
 		return tileData;
 	} // end loadMap
+	
+	public boolean conditionalPos(int row, int col) {
+	 	Scanner s;
+	 	
+	 	for(int i = 0; i < specialCases.length; i++) {
+	 		s = new Scanner(specialCases[i]);
+	 		
+	 		if(row == s.nextInt()) {
+	 			
+	 			System.out.println("ROW MATCH TOKEN");
+	 			
+	 			while(s.hasNext()) {
+	 				if(col == s.nextInt()) {
+	 					System.out.println("COL MATCH TOKEN");
+	 					s.close();
+	 					return true;
+	 				}
+	 			}
+	 		}
+	 		
+	 		s.close();
+	 	}
+	 	
+	 	return false;
+	} // end conditionalPos
 }
