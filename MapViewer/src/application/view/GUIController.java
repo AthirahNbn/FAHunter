@@ -1,5 +1,6 @@
 package application.view;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -45,6 +46,7 @@ public class GUIController {
 	@FXML private Label newAxeCoorLabel;
     @FXML private Label newBoatCoorLabel;
     
+    @FXML private Button playButton;
     @FXML private Button resetCoor;
     @FXML private Button saveCoor;
     
@@ -257,4 +259,25 @@ public class GUIController {
 			e.printStackTrace();
 		}
 	} // end saveCoor
+	
+	@FXML void playButton(){
+        try {
+            System.out.println("Calling jar");
+
+            Process p = Runtime.getRuntime().exec("java -jar DiamondHunter.jar arg1 arg2");
+
+            BufferedInputStream bis = new BufferedInputStream(p.getInputStream());
+            synchronized (p) {
+              p.waitFor();
+            }
+            System.out.println(p.exitValue());
+
+            int b=0;
+            while((b=bis.read()) >0){
+              System.out.print((char)b);   
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    } // end playButtton
 }
